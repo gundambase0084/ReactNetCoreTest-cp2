@@ -1,1 +1,2 @@
-# ReactNetCoreTest-cp2
+1.将demo.html和script放在同一目录下，用ie8以上浏览器或edge或chorme打开demo.html即可浏览原型
+ps：时间关系，做完才发现可以通过将穿梭框三个部分做成一个组件来进行调用，之后在cp3中会提交。 
