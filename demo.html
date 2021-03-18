@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8" />
+<title>ReactDemo!</title>
+<script src="./babel.min.js"></script>
+<script src="./react.development.js"></script>
+<script src="./react-dom.development.js"></script>
+<link rel="stylesheet" href="./layui.css">
+<script src="./layui.js"></script>
+
+<style>
+   li:checked{
+       background-color:red;
+   }
+   
+   a {
+      text-decoration:underline;
+	  color:blue;
+   }
+   
+   .middleBTn{
+       border:2px solid rgb(183,187,226);
+	   color:rgb(88,96,187);
+   }
+   
+</style>
+</head>
+<body style='background-color:rgb(242,242,242)'>
+
+    <div class="layui-container">
+	    <div class="layui-row" style='min-height:200px'>
+	        <div class="layui-row" style='line-height:40px'>
+	        <span> My Favor Repos</span>
+	    </div>
+		<!----检索栏---->
+	    <div class="layui-row" style='text-align:center' >
+			<div class="layui-col-xs12"  style='background-color:rgb(102,102,102);border-radius:10px 10px;height:50px'>
+			<div class="layui-col-xs1">	
+				<i style='display:inline-block;padding:15px 15px;color:white'>左箭头</i>
+			</div>
+			<div class="layui-col-xs1">	
+				<i style='display:inline-block;padding:15px 15px;color:white'>右箭头</i></div>
+			<div class="layui-col-xs1">	
+				<i style='display:inline-block;padding:15px 15px;color:white'>刷新</i></div>
+			<div class="layui-col-xs8">
+                <input type='text' class="layui-input" style='margin:10px;height:30px' />
+			</div>
+			<div class="layui-col-xs1">	
+				<i style='display:inline-block;padding:15px 15px;color:white'>取消</i></div>
+			</div>
+	    </div>
+		<!----左列表区域---->
+		 <div class="layui-row" style='margin-top:30px'>
+            <div class="layui-col-xs5" >
+			    <div class="layui-row" style='margin:0 0 10px 10px'>
+				    All Repos from 
+					<div id='HyperLinkComp' style='display:inline-block'></div>
+				</div>
+			    <div class="layui-row" style='margin:0 10px'>
+				<div class="layui-col-xs12" style='border:3px solid black;min-height:150px'>
+				    <ul>
+				        <li style='margin-top:10px;'>boat-house-frontend</li>
+				        <li style='margin-top:10px;'>boat-house-frontend</li>
+				        <li style='margin-top:10px;'>boat-house-frontend</li>
+				        <li style='margin-top:10px;'>boat-house-frontend</li>
+				        <li style='margin-top:10px;'>boat-house-frontend</li>
+				    </ul>
+				</div>
+				</div>
+			</div>
+			<!----中间按钮区域---->
+			<div class="layui-col-xs2" style='text-align:center;margin-top:30px'>
+			    <div class="layui-row" style='margin-top:30px'>
+			    <!-- <input type='button' value='>>>' style='padding:10px 30px' onClick={moveLeft}/> -->
+			        <div id="MoveLeft"> </div>
+			    </div>
+			    <div class="layui-row" style='margin-top:20px'>
+			    <!--   <input type='button' value='<<<' style='padding:10px 30px' onClick={moveRight}/> -->
+				    <div id="MoveRight"> </div>
+			    </div>
+			    <div class="layui-row" style='margin-top:20px'>
+			    <!--   <input type='button' value='generate mail' style='padding:10px 30px' onClick={generateMail}/> -->
+				    <div id="GenerateMail"> </div>
+			    </div>
+			</div>
+			<!----右列表区域---->
+			<div class="layui-col-xs5">
+				<div class="layui-row" style='margin:0 0 10px 10px'> My Favor Repos </div>
+				<div class="layui-row" style='margin:0 10px'>
+			      	<div class="layui-col-xs12" style='border:3px solid black;min-height:150px'>
+				        <ul>
+				            <li style='margin-top:10px;'>boat-house-frontend</li>
+				            <li style='margin-top:10px;'>boat-house-frontend</li>
+				            <li style='margin-top:10px;'>boat-house-frontend</li>
+				            <li style='margin-top:10px;'>boat-house-frontend</li>
+				            <li style='margin-top:10px;'>boat-house-frontend</li>
+				        </ul>
+				    </div>
+                </div>			
+			</div>
+        </div>
+		<!----邮件内容区域---->
+		<div class="layui-row" style='margin:20px 10px 0 10px' >
+		    <div class="layui-col-xs12">
+		        <div class="layui-row" style='min-height:200px;border:3px solid black'>
+				<ul>
+				<li><span style='margin:20px 0;display:inline-block'>Hello Alan</span></li>
+				<li>This is your favor repos</li>
+				<li>-boat-house IDCF boat-house 社区共创文档库，官网<a  target='_blank'  href='https://boat-house.cn//'>https://boat-house.cn//</a>文档库<a target='_blank' href='https://boat-house.cn//'>https://boat-house.cn//</a></li>
+				<li>-boat-house IDCF boat-house 社区共创文档库，官网<a target='_blank' href='https://boat-house.cn//'>https://boat-house.cn//</a>文档库<a target='_blank' href='https://boat-house.cn//'>https://boat-house.cn//</a></li>
+				</ul>
+				</div>
+		    </div>
+		</div>
+    </div>
+	</div>
+
+    <script type="text/babel">
+      
+        //全局变量
+        const inputStyle = {
+          paddingTop:10,
+    	  paddingBottom:10,
+    	  paddingLeft:30,
+    	  paddingRight:30,
+    	   
+        };
+        
+    	//组件定义
+        class MoveLeft extends React.Component {
+          constructor(props) {
+            super(props);
+        
+            this.MoveLeft = this.MoveLeft.bind(this);
+          }
+        
+          MoveLeft() {
+            alert('MoveLeft');
+          }
+        
+          render() {
+            return (
+              <button onClick={this.MoveLeft} class={'middleBTn'} style={inputStyle}>
+                {'>>>'}
+              </button>
+            );
+          }
+        }
+        
+        class HyperLinkComp extends React.Component {
+          constructor(props) {
+            super(props);
+            this.getData = this.HyperLinkComp.bind(this);
+          }
+        
+          HyperLinkComp() {
+            alert('getData');
+          }
+          
+          render() {
+            return (
+        	   <a target='_blank' href='https://github.com/idcf-boat-house' onClick={this.getData}>{'https://github.com/idcf-boat-house'}</a>
+            );
+          }
+        }
+        
+        class MoveRight extends React.Component {
+          constructor(props) {
+            super(props);
+        
+            this.MoveRight = this.MoveRight.bind(this);
+          }
+        
+          MoveRight() {
+            alert('MoveRight');
+          }
+        
+          render() {
+            return (
+              <button onClick={this.MoveRight} class={'middleBTn'} style={inputStyle}>
+                  {'<<<'}
+              </button>
+            );
+          }
+        }
+        
+        class GenerateMail extends React.Component {
+          constructor(props) {
+            super(props);
+        
+            this.GenerateMail = this.GenerateMail.bind(this);
+          }
+        
+          GenerateMail() {
+            alert('GenerateMail');
+          }
+        
+          render() {
+            return (
+              <button onClick={this.GenerateMail} class={'middleBTn'} style={inputStyle}>
+                  {'GenerateMail'}
+              </button>
+            );
+          }
+        }
+        
+    	//元素渲染
+        ReactDOM.render(
+          <HyperLinkComp />,
+          document.getElementById('HyperLinkComp')
+        );
+        
+        ReactDOM.render(
+          <MoveRight />,
+          document.getElementById('MoveRight')
+        );
+        
+        ReactDOM.render(
+          <MoveLeft />,
+          document.getElementById('MoveLeft')
+        );
+        
+        ReactDOM.render(
+          <GenerateMail />,
+          document.getElementById('GenerateMail')
+        );
+    </script>
+</body>
+</html>
